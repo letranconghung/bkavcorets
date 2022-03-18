@@ -1,0 +1,1 @@
+# Library for BKAV's Core Services using TypeScript
