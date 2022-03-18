@@ -15,4 +15,3 @@ function wanttoincludethis(x, y) {
     return a * 2;
 }
 exports.wanttoincludethis = wanttoincludethis;
-//# sourceMappingURL=index.js.map

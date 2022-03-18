@@ -5,4 +5,3 @@ function fdtfgreet(name) {
     return `Hello from fdtf${name}`;
 }
 exports.fdtfgreet = fdtfgreet;
-//# sourceMappingURL=index.js.map
