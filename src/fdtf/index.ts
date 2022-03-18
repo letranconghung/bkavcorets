@@ -58,7 +58,7 @@ export const dateTime = (endTime: FlexiDate = moment(), startTime: FlexiDate = m
   return { timeLeft, years, months, weeks, days, hours, minutes, seconds }
 }
 
-function getDayMonth(dt1: FlexiDate, dt2: FlexiDate) {
+const getDayMonth = (dt1: FlexiDate, dt2: FlexiDate) => {
   const date1 = parseDT(dt1, 'YYYYMMDDHHmmss')
   const date2 = parseDT(dt2, 'YYYYMMDDHHmmss')
   let t1, t2, days
@@ -90,7 +90,7 @@ function getDayMonth(dt1: FlexiDate, dt2: FlexiDate) {
   return { months, days }
 }
 
-export function asDateTime(endTime: FlexiDate = moment(), startTime: FlexiDate = moment(), isPast = false, isAbs = false) {
+export const asDateTime = (endTime: FlexiDate = moment(), startTime: FlexiDate = moment(), isPast = false, isAbs = false) => {
   let timeLeft = moment(endTime).diff(moment(startTime))
 
   if (timeLeft < 0 && isPast === false) {
@@ -182,12 +182,9 @@ export const fdtfM4 = (dt: FlexiDate, checkReturn = false) => {
 
 export const fdtfM5 = (dt: FlexiDate, checkReturn = false) => {
   const weekInput = momentDateToString(dt, 'WW')
-  if (sameYear(dt)) {
-    if (weekInput === subtractDateTime(1, 'w', 'WW')) return 'Tuần trước'
-    if (weekInput === momentDateToString(moment(), 'WW')) return 'Tuần này'
-    if (weekInput === addDateTime(1, 'w', 'WW')) return 'Tuần sau'
-    return checkReturn ? false : fdtfM3Plus(dt, `DD/MM`)
-  }
+  if (weekInput === subtractDateTime(1, 'w', 'WW')) return 'Tuần trước'
+  if (weekInput === momentDateToString(moment(), 'WW')) return 'Tuần này'
+  if (weekInput === addDateTime(1, 'w', 'WW')) return 'Tuần sau'
   return checkReturn ? false : fdtfM3Plus(dt, `DD/MM`)
 }
 
@@ -214,13 +211,12 @@ export const fdtfM8 = (dt: FlexiDate) => {
   return momentDateToString(dt, `DD/MM/YYYY [(${getWeekDay(dt)})]`)
 }
 
-export const fdtfM9 = (dt: FlexiDate, tf: M1Format) => {
-  const getTime = fdtfM1(dt, tf)
-  return `${getTime} ${fdtfM8(dt)}`
+export const fdtfM9 = (dt: FlexiDate, m: M1Format) => {
+  return `${fdtfM1(dt, m)} ${fdtfM8(dt)}`
 }
 
 export const fdtfK1 = (dt1: FlexiDate, dt2: FlexiDate, kx: K1Format = 'k1b') => {
-  const isC1 = kx.toLowerCase() === 'k1a'
+  const isC1 = kx === 'k1a'
   const { timeLeft, hours, minutes, seconds } = dateTime(dt1, dt2, true, true)
   const { days, months } = getDayMonth(dt1, dt2)
   const { asHours, asDays } = asDateTime(dt1, dt2, true, true)
@@ -235,7 +231,6 @@ export const fdtfK1 = (dt1: FlexiDate, dt2: FlexiDate, kx: K1Format = 'k1b') => 
 }
 
 export const fdtfK2 = (dt: FlexiDate, kx: K2Format = 'k21b') => {
-  // const strK = ['k21a', 'k21b', 'k22a', 'k22b'].includes(k.toLowerCase()) ? k.toLowerCase() : 'k21b'
   const strC = kx.charAt(kx.length - 1) === 'a' ? 'k1a' : 'k1b'
   const { timeLeft } = asDateTime(dt, moment(), true)
   if (-6000 < timeLeft && timeLeft < 0) {
@@ -247,8 +242,4 @@ export const fdtfK2 = (dt: FlexiDate, kx: K2Format = 'k21b') => {
     if (kx === 'k21a' || kx === 'k21b') return `${dtK} ${timeLeft < 0 ? 'trước' : 'sau'}`
     return `${timeLeft < 0 ? 'Quá hạn' : 'Còn lại'} ${dtK}`
   }
-}
-
-export function double(a: number) {
-  return a * 2
 }

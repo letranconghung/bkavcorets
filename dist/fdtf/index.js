@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.double = exports.fdtfK2 = exports.fdtfK1 = exports.fdtfM9 = exports.fdtfM8 = exports.fdtfM7 = exports.fdtfM6 = exports.fdtfM5 = exports.fdtfM4 = exports.fdtfM3 = exports.fdtfM2 = exports.fdtfM1 = exports.fdtfM3Plus = exports.asDateTime = exports.dateTime = exports.momentDateToString = void 0;
+exports.fdtfK2 = exports.fdtfK1 = exports.fdtfM9 = exports.fdtfM8 = exports.fdtfM7 = exports.fdtfM6 = exports.fdtfM5 = exports.fdtfM4 = exports.fdtfM3 = exports.fdtfM2 = exports.fdtfM1 = exports.fdtfM3Plus = exports.asDateTime = exports.dateTime = exports.momentDateToString = void 0;
 const moment_1 = __importDefault(require("moment"));
 const momentDateToString = (date = (0, moment_1.default)(), format = 'YYYY-MM-DD') => {
     return (0, moment_1.default)((0, moment_1.default)(date), format).format(format);
@@ -47,7 +47,7 @@ const dateTime = (endTime = (0, moment_1.default)(), startTime = (0, moment_1.de
     return { timeLeft, years, months, weeks, days, hours, minutes, seconds };
 };
 exports.dateTime = dateTime;
-function getDayMonth(dt1, dt2) {
+const getDayMonth = (dt1, dt2) => {
     const date1 = parseDT(dt1, 'YYYYMMDDHHmmss');
     const date2 = parseDT(dt2, 'YYYYMMDDHHmmss');
     let t1, t2, days;
@@ -75,8 +75,8 @@ function getDayMonth(dt1, dt2) {
         days = dIM2 === d2 ? dIM - d1 : dIM - d1 + d2;
     }
     return { months, days };
-}
-function asDateTime(endTime = (0, moment_1.default)(), startTime = (0, moment_1.default)(), isPast = false, isAbs = false) {
+};
+const asDateTime = (endTime = (0, moment_1.default)(), startTime = (0, moment_1.default)(), isPast = false, isAbs = false) => {
     let timeLeft = (0, moment_1.default)(endTime).diff((0, moment_1.default)(startTime));
     if (timeLeft < 0 && isPast === false) {
         timeLeft = 0;
@@ -109,7 +109,7 @@ function asDateTime(endTime = (0, moment_1.default)(), startTime = (0, moment_1.
         asMinutes,
         asSeconds,
     };
-}
+};
 exports.asDateTime = asDateTime;
 const fdtfM3Plus = (dt, format = `HH[h]mm’ss’’ DD/MM`) => {
     if (sameYear(dt))
@@ -176,15 +176,12 @@ const fdtfM4 = (dt, checkReturn = false) => {
 exports.fdtfM4 = fdtfM4;
 const fdtfM5 = (dt, checkReturn = false) => {
     const weekInput = (0, exports.momentDateToString)(dt, 'WW');
-    if (sameYear(dt)) {
-        if (weekInput === subtractDateTime(1, 'w', 'WW'))
-            return 'Tuần trước';
-        if (weekInput === (0, exports.momentDateToString)((0, moment_1.default)(), 'WW'))
-            return 'Tuần này';
-        if (weekInput === addDateTime(1, 'w', 'WW'))
-            return 'Tuần sau';
-        return checkReturn ? false : (0, exports.fdtfM3Plus)(dt, `DD/MM`);
-    }
+    if (weekInput === subtractDateTime(1, 'w', 'WW'))
+        return 'Tuần trước';
+    if (weekInput === (0, exports.momentDateToString)((0, moment_1.default)(), 'WW'))
+        return 'Tuần này';
+    if (weekInput === addDateTime(1, 'w', 'WW'))
+        return 'Tuần sau';
     return checkReturn ? false : (0, exports.fdtfM3Plus)(dt, `DD/MM`);
 };
 exports.fdtfM5 = fdtfM5;
@@ -218,16 +215,15 @@ const fdtfM8 = (dt) => {
     return (0, exports.momentDateToString)(dt, `DD/MM/YYYY [(${getWeekDay(dt)})]`);
 };
 exports.fdtfM8 = fdtfM8;
-const fdtfM9 = (dt, tf) => {
-    const getTime = (0, exports.fdtfM1)(dt, tf);
-    return `${getTime} ${(0, exports.fdtfM8)(dt)}`;
+const fdtfM9 = (dt, m) => {
+    return `${(0, exports.fdtfM1)(dt, m)} ${(0, exports.fdtfM8)(dt)}`;
 };
 exports.fdtfM9 = fdtfM9;
 const fdtfK1 = (dt1, dt2, kx = 'k1b') => {
-    const isC1 = kx.toLowerCase() === 'k1a';
+    const isC1 = kx === 'k1a';
     const { timeLeft, hours, minutes, seconds } = (0, exports.dateTime)(dt1, dt2, true, true);
     const { days, months } = getDayMonth(dt1, dt2);
-    const { asHours, asDays } = asDateTime(dt1, dt2, true, true);
+    const { asHours, asDays } = (0, exports.asDateTime)(dt1, dt2, true, true);
     if (timeLeft < 60000)
         return `${seconds} giây`;
     if (timeLeft < 60 * 60000)
@@ -244,9 +240,8 @@ const fdtfK1 = (dt1, dt2, kx = 'k1b') => {
 };
 exports.fdtfK1 = fdtfK1;
 const fdtfK2 = (dt, kx = 'k21b') => {
-    // const strK = ['k21a', 'k21b', 'k22a', 'k22b'].includes(k.toLowerCase()) ? k.toLowerCase() : 'k21b'
     const strC = kx.charAt(kx.length - 1) === 'a' ? 'k1a' : 'k1b';
-    const { timeLeft } = asDateTime(dt, (0, moment_1.default)(), true);
+    const { timeLeft } = (0, exports.asDateTime)(dt, (0, moment_1.default)(), true);
     if (-6000 < timeLeft && timeLeft < 0) {
         return 'Vừa quá hạn';
     }
@@ -261,7 +256,3 @@ const fdtfK2 = (dt, kx = 'k21b') => {
     }
 };
 exports.fdtfK2 = fdtfK2;
-function double(a) {
-    return a * 2;
-}
-exports.double = double;

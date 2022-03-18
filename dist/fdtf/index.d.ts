@@ -17,7 +17,7 @@ export declare const dateTime: (endTime?: FlexiDate, startTime?: FlexiDate, isPa
     minutes: number;
     seconds: number;
 };
-export declare function asDateTime(endTime?: FlexiDate, startTime?: FlexiDate, isPast?: boolean, isAbs?: boolean): {
+export declare const asDateTime: (endTime?: FlexiDate, startTime?: FlexiDate, isPast?: boolean, isAbs?: boolean) => {
     timeLeft: number;
     asYears: number;
     asMonths: number;
@@ -36,9 +36,8 @@ export declare const fdtfM5: (dt: FlexiDate, checkReturn?: boolean) => string | 
 export declare const fdtfM6: (dt: FlexiDate, checkReturn?: boolean) => string | false;
 export declare const fdtfM7: (dt: FlexiDate) => string;
 export declare const fdtfM8: (dt: FlexiDate) => string;
-export declare const fdtfM9: (dt: FlexiDate, tf: M1Format) => string;
+export declare const fdtfM9: (dt: FlexiDate, m: M1Format) => string;
 export declare const fdtfK1: (dt1: FlexiDate, dt2: FlexiDate, kx?: K1Format) => string;
 export declare const fdtfK2: (dt: FlexiDate, kx?: K2Format) => string;
-export declare function double(a: number): number;
 export {};
 //# sourceMappingURL=index.d.ts.map
