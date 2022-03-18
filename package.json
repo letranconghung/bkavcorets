@@ -1,0 +1,28 @@
+{
+  "name": "@letranconghung/bkavcorets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/letranconghung/bkavcorets.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/letranconghung/bkavcorets/issues"
+  },
+  "homepage": "https://github.com/letranconghung/bkavcorets#readme",
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  }
+}
