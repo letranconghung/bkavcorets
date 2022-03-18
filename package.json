@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "buildcommit": "npm run build && git add . && git commit -m \"$npm_config_message\"",
+    "buildstage": "npm run build && git add .",
     "local": "npm run build && npm link"
   },
   "repository": {
